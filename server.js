@@ -1,8 +1,17 @@
 const express = require('express');
-const app = express();
+const cors = require('cors')
 const bodyParser = require('body-parser');
 
+const app = express();
 const port = 5000;
+
+// Enable cors
+app.use(cors({
+  origin:[
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+  ]
+}));
 
 // Parse Json
 app.use(bodyParser.json());

@@ -1,40 +1,68 @@
-const sqlite3 = require('sqlite3').verbose();
-
 class SQLiteSingleton {
   constructor(databasePath) {
-    if (!SQLiteSingleton.instance) { //Check if the instance is present
-      this.db = new sqlite3.Database(databasePath);
+    if (!SQLiteSingleton.instance) {
+      const sqlite3 = require('sqlite3').verbose();
+      this.db = new sqlite3.Database(databasePath, (err) => {
+        if (err) {
+          console.error("Could not connect to database", err);
+        } else {
+          console.log("Connected to database");
+        }
+      });
       SQLiteSingleton.instance = this;
-      
-      console.log("Connected to database");
     }
-    // If an instance is present then return that
     return SQLiteSingleton.instance;
   }
 
   // SELECT query
-  select(sql, params, callback) {
-    return this.db.all(sql, params, callback);
+  select(sql, params = []) {
+    return new Promise((resolve, reject) => {
+      this.db.all(sql, params, (err, rows) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      });
+    });
   }
 
   // INSERT query
-  insert(sql, params, callback) {
-    return this.db.run(sql, params, function(err) {
-      callback(err, this.lastID);
+  insert(sql, params = []) {
+    return new Promise((resolve, reject) => {
+      this.db.run(sql, params, function(err) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(this.lastID);
+        }
+      });
     });
   }
 
   // DELETE query
-  delete(sql, params, callback) {
-    return this.db.run(sql, params, function(err) {
-      callback(err, this.changes);
+  delete(sql, params = []) {
+    return new Promise((resolve, reject) => {
+      this.db.run(sql, params, function(err) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(this.changes);
+        }
+      });
     });
   }
 
   // UPDATE query
-  update(sql, params, callback) {
-    return this.db.run(sql, params, function(err) {
-      callback(err, this.changes);
+  update(sql, params = []) {
+    return new Promise((resolve, reject) => {
+      this.db.run(sql, params, function(err) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(this.changes);
+        }
+      });
     });
   }
 }
