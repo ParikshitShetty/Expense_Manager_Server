@@ -16,11 +16,11 @@ module.exports.SignupController = async(req,res) => {
 
         const options = [email,user_name,hashedPassword];
         
-        const rows = await dbInstance.insert(query, options)
+        const rows = await dbInstance.insert(query, options);
        
-        res.status(200).json({"data":rows});
+        res.status(200).json({"message":"Error while sign up","data":rows});
         
     } catch (error) {
-        res.status(500).json({ error: 'Login failed' });
+        res.status(500).json({ error: 'Signup failed' });
     }
 }

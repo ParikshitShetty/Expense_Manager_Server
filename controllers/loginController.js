@@ -14,29 +14,35 @@ module.exports.LoginController = async(req,res) => {
         const query = `SELECT * FROM USER WHERE user_name="${user_name}"`;
            
         const rows = await dbInstance.select(query, []);
-        console.log("rows",rows)
-        bcrypt.compare(password, rows[0].password, (err, result) => {
-            if (err) {
-                console.error('Error comparing passwords:', err);
-                return;
-            }
+        console.log("rows",rows);
+        const match = await bcrypt.compare(password, rows[0].password);
         
-            if (result) {
-                // Passwords match, authentication successful
-                console.log('Passwords match! User authenticated.');
-                const token = jwt.sign({ user_name: user_name }, env.parsed.Secret_Key, {
-                    expiresIn: '12h',
-                });
-                res.cookie('user_name', user_name, { maxAge: 900000, httpOnly: true });
-                    
-                res.status(200).json({"USER":"Authenticated.","token":token });
-            } else {
-                // Passwords don't match, authentication failed
-                console.log('Passwords do not match! Authentication failed.');
-                // res.status(404).json({"USER":"doesn't match."});
-                return res.status(401).json({ error: 'Authentication failed' });
-            }
-        })
+        if (match) {
+            // Passwords match, authentication successful
+            console.log('Passwords match! User authenticated.');
+            const token = jwt.sign({ user_name: user_name }, env.parsed.Secret_Key, {
+                expiresIn: '12h',
+            });
+            const id = rows[0].user_id;
+            const cookie = {
+                user_name : user_name,
+                token : token,
+                userId : id,
+            };
+            const cookieOptions = {
+                secure: false, // Set to true in production with HTTPS
+                httpOnly: true,
+                maxAge: 90000000,
+                domain: "localhost",
+                sameSite: 'Lax',
+                path: '/',
+            };
+            res.cookie("access_token",cookie,cookieOptions).status(200).json({ "message":"Authenticated.", "token":token, "user_id":id });
+        } else {
+            // Passwords don't match, authentication failed
+            console.log('Passwords do not match! Authentication failed.');
+            return res.status(401).json({ "message": 'Authentication failed' });
+        }    
     } catch (error) {
         res.status(500).json({ error: 'Login failed' });
     }

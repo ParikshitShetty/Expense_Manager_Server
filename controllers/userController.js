@@ -9,7 +9,8 @@ const dbInstance = new SQLiteSingleton('../expenses.db');
 
 module.exports.UsersGetterController = async(req,res) => {
     try {
-        const rows = await dbInstance.select('SELECT * FROM USER', [])
+        const query = `SELECT * FROM USER`;
+        const rows = await dbInstance.select(query, []);
         console.log("rows",rows)
         res.status(200).json({"data":rows});
     } catch (error) {

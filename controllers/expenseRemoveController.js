@@ -10,8 +10,8 @@ module.exports.ExpensesRemoverController = async(req,res) => {
 
     try {
         const rows = await dbInstance.delete(query, []);
-        console.log("rows",rows);
-        res.status(200).json({"data":rows});
+        console.log("rows removed",rows);
+        res.status(200).json({"exp_id":rows});
     } catch (error) {
         console.log("error reading from db",error);
     }
