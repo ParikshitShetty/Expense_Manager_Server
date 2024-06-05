@@ -33,7 +33,8 @@ module.exports.LoginController = async(req,res) => {
                 secure: false, // Set to true in production with HTTPS
                 httpOnly: true,
                 maxAge: 90000000,
-                domain: "localhost",
+                domain: '.vercel.app',
+                // domain: "localhost",
                 sameSite: 'Lax',
                 path: '/',
             };
