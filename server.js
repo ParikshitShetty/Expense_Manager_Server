@@ -16,6 +16,8 @@ app.use(cors({
     "https://expense-manager-frontend-parikshit-shettys-projects-7026150a.vercel.app/",
     "https://expense-manager-frontend-qhojfttx9.vercel.app/",
   ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow the methods you need
+  allowedHeaders: ['Content-Type'],
   credentials:true
 }));
 

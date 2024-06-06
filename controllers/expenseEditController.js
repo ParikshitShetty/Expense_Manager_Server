@@ -16,7 +16,7 @@ module.exports.ExpenseEditController = async(req,res) => {
         console.log("rows edited",rows)
         res.status(200).json({"data":rows});
     } catch (error) {
-        console.log("error reading from db",error);
-        res.status(404).json({"message":"error",err:error});
+        console.log("Error while editing  epxense",error);
+        res.status(404).json({"message":"Error while editing  epxense",err:error});
     }
 }

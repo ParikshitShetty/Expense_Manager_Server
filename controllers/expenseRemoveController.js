@@ -13,6 +13,7 @@ module.exports.ExpensesRemoverController = async(req,res) => {
         console.log("rows removed",rows);
         res.status(200).json({"exp_id":rows});
     } catch (error) {
-        console.log("error reading from db",error);
+        console.log("Error reading from db",error);
+        res.status(500).json({ error: 'Errow while removing expense' });
     }
 }

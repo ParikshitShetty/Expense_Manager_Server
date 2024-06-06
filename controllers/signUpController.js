@@ -21,6 +21,7 @@ module.exports.SignupController = async(req,res) => {
         res.status(200).json({"message":"Error while sign up","data":rows});
         
     } catch (error) {
+        console.error('Signup failed',error)
         res.status(500).json({ error: 'Signup failed' });
     }
 }

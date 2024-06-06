@@ -13,6 +13,7 @@ module.exports.LogOutController = async(req,res) => {
         console.log("user_id",userId);
         res.clearCookie('access_token').status(200).json({"USER":"Logged Out"});
     } catch (error) {
-        res.status(500).json({ error: 'Login failed' });
+        console.error("Error while login:",error);
+        res.status(500).json({ error: 'Logout failed' });
     }
 }

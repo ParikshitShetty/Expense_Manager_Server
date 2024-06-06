@@ -30,12 +30,11 @@ module.exports.LoginController = async(req,res) => {
                 userId : id,
             };
             const cookieOptions = {
-                secure: false, // Set to true in production with HTTPS
+                secure: env.parsed.NODE_ENV === 'production', // Set to true in production with HTTPS
                 httpOnly: true,
                 maxAge: 90000000,
-                domain: '.vercel.app',
-                // domain: "localhost",
-                sameSite: 'Lax',
+                domain: env.parsed.NODE_ENV === 'production' ? '.vercel.app' : 'localhost',
+                sameSite: env.parsed.NODE_ENV === 'production' ? 'None' : 'Lax',
                 path: '/',
             };
             res.cookie("access_token",cookie,cookieOptions).status(200).json({ "message":"Authenticated.", "token":token, "user_id":id });
@@ -45,6 +44,7 @@ module.exports.LoginController = async(req,res) => {
             return res.status(401).json({ "message": 'Authentication failed' });
         }    
     } catch (error) {
+        console.error("Error while login:",error);
         res.status(500).json({ error: 'Login failed' });
     }
 }
