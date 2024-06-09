@@ -18,7 +18,8 @@ app.use(cors({
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow the methods you need
   allowedHeaders: ['Content-Type'],
-  credentials:true
+  credentials:true,
+  exposedHeaders:['Set-Cookie']
 }));
 
 // Enable cookie parser
