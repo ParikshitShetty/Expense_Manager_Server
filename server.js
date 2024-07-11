@@ -11,10 +11,10 @@ app.use(cors({
   origin:[
     'http://localhost:5173',
     'http://127.0.0.1:5173',
-    "https://expense-manager-frontend-lime.vercel.app",
+    "https://expense-manager-frontend-wine.vercel.app",
     "https://expense-manager-git-ba00bf-parikshit-shettys-projects-7026150a.vercel.app",
     "https://expense-manager-frontend-parikshit-shettys-projects-7026150a.vercel.app",
-    "https://expense-manager-frontend-qhojfttx9.vercel.app",
+    "https://expense-manager-frontend-b2a0zf1bu.vercel.app"
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow the methods you need
   allowedHeaders: ['Content-Type'],
